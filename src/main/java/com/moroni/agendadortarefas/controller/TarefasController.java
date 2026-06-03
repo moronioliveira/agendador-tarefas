@@ -2,6 +2,7 @@ package com.moroni.agendadortarefas.controller;
 
 import com.moroni.agendadortarefas.business.TarefasService;
 import com.moroni.agendadortarefas.business.dto.TarefasDTO;
+import com.moroni.agendadortarefas.infrastructure.enums.StatusNotificacaoEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,4 +35,22 @@ public class TarefasController {
 
         return ResponseEntity.ok(tarefasService.buscaTarefasPorEmail(token));
     }
+    @DeleteMapping
+    public ResponseEntity<Void>deletaTarefaPorId(@RequestParam("id") String id){
+        tarefasService.deletaTarefaPorId(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping
+    public ResponseEntity<TarefasDTO> alteraStatusNotificacao(@RequestParam("status") StatusNotificacaoEnum status,
+                                                              @RequestParam("id") String id) {
+        return ResponseEntity.ok(tarefasService.alteraStatus(status, id));
+    }
+
+    @PutMapping
+    public ResponseEntity<TarefasDTO> updateTarefas(@RequestBody TarefasDTO dto, @RequestParam("id") String id) {
+        return ResponseEntity.ok(tarefasService.updateTarefas(dto, id));
+    }
+
 }
